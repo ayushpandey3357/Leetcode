@@ -1,0 +1,30 @@
+class Solution {
+    public double new21Game(int n, int k, int maxPts) {
+         if (k == 0 || n >= k + maxPts) {
+            return 1.0;
+        }
+
+        double[] dp = new double[n + 1];
+        dp[0] = 1.0;
+
+        double window = 1.0; // running sum of last maxPts dp values
+        double result = 0.0;
+
+        for (int x = 1; x <= n; x++) {
+            dp[x] = window / maxPts;
+
+            if (x < k) {
+                window += dp[x]; // still can draw
+            } else {
+                result += dp[x]; // stop here
+            }
+
+            if (x - maxPts >= 0) {
+                window -= dp[x - maxPts]; // slide window
+            }
+        }
+
+        return result;
+        
+    }
+}
